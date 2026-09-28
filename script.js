@@ -8,6 +8,45 @@
 
   var reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
+  /* ---------- Menu mobile (hamburguer) ---------- */
+  var navToggle = document.querySelector(".nav-toggle");
+  var siteNav = document.getElementById("site-nav");
+
+  if (navToggle && siteNav) {
+    var closeNav = function () {
+      siteNav.classList.remove("is-open");
+      navToggle.setAttribute("aria-expanded", "false");
+      navToggle.setAttribute("aria-label", "Abrir menu");
+      document.body.style.overflow = "";
+    };
+    var openNav = function () {
+      siteNav.classList.add("is-open");
+      navToggle.setAttribute("aria-expanded", "true");
+      navToggle.setAttribute("aria-label", "Fechar menu");
+      document.body.style.overflow = "hidden";
+    };
+
+    navToggle.addEventListener("click", function () {
+      if (siteNav.classList.contains("is-open")) {
+        closeNav();
+      } else {
+        openNav();
+      }
+    });
+
+    siteNav.querySelectorAll("a").forEach(function (link) {
+      link.addEventListener("click", closeNav);
+    });
+
+    document.addEventListener("keydown", function (e) {
+      if (e.key === "Escape") closeNav();
+    });
+
+    window.matchMedia("(min-width: 981px)").addEventListener("change", function (e) {
+      if (e.matches) closeNav();
+    });
+  }
+
   /* ---------- Contador de seção (ex.: 01 / 04) ---------- */
   var sections = Array.prototype.slice.call(document.querySelectorAll("[data-section]"));
   var indexNumberEl = document.querySelector(".index b");
